@@ -21,8 +21,6 @@ A production-ready Retrieval-Augmented Generation system for intelligent documen
                     └──────────────┘     └─────────────┘
 ```
 
-
-
 ## Features
 
 * **Multi-format document ingestion** : PDF, TXT, HTML
@@ -31,7 +29,6 @@ A production-ready Retrieval-Augmented Generation system for intelligent documen
 * **Production-ready** : Containerized, tested, CI/CD pipeline
 * **Interactive UI** : Gradio-based web interface
 * **Evaluation metrics** : Recall@k, answer similarity scoring
-
 
 ## Example
 
@@ -43,7 +40,7 @@ Index document
 
 Q/A:
 
-![img]()
+![img](./assets/QA_What_is_RAG.png)
 
 ## Quick Start
 
@@ -205,17 +202,6 @@ curl -X POST http://localhost:7860/api/query \
   -d '{"question": "What is RAG?", "top_k": 5}'
 ```
 
-## Interview Talking Points
-
-When presenting this project:
-
-1. **System Design** : Emphasize the modular architecture allowing easy swapping of components (vector stores, LLMs, embedders)
-2. **Engineering Best Practices** : Highlight type hints, comprehensive testing, containerization, and CI/CD pipeline
-3. **Performance Optimization** : Discuss hybrid retrieval strategy, caching mechanisms, and CPU/GPU flexibility
-4. **Production Readiness** : Point out error handling, logging, monitoring hooks, and horizontal scalability design
-5. **Evaluation Framework** : Show the built-in metrics system for measuring retrieval and generation quality
-6. **Real-world Considerations** : Explain trade-offs made for latency, accuracy, and cost in different deployment scenarios
-
 ## Development
 
 ```bash
@@ -263,7 +249,7 @@ Built with:
 * [ ] Support for tables and images in PDFs
 * [ ] Streaming responses for better UX
 * [ ] A/B testing framework for retrieval strategies
-  ==============================================
+  ==================================================
 
 # rag-doc-qa
 
