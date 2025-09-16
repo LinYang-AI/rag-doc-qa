@@ -43,7 +43,7 @@ Index document
 
 Q/A:
 
-![img](./assets/QA - What is RAG.png)
+![img]()
 
 ## Quick Start
 
