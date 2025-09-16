@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # RAG Document QA System
 
@@ -247,3 +248,7 @@ Built with:
 * [ ] Support for tables and images in PDFs
 * [ ] Streaming responses for better UX
 * [ ] A/B testing framework for retrieval strategies
+=======
+# rag-doc-qa
+Retrieval-Augmented Generation (RAG) Document QA System
+>>>>>>> 31c93c07f42417470932a434dc0a17c09f946478
