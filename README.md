@@ -21,6 +21,8 @@ A production-ready Retrieval-Augmented Generation system for intelligent documen
                     └──────────────┘     └─────────────┘
 ```
 
+
+
 ## Features
 
 * **Multi-format document ingestion** : PDF, TXT, HTML
@@ -29,6 +31,19 @@ A production-ready Retrieval-Augmented Generation system for intelligent documen
 * **Production-ready** : Containerized, tested, CI/CD pipeline
 * **Interactive UI** : Gradio-based web interface
 * **Evaluation metrics** : Recall@k, answer similarity scoring
+
+
+## Example
+
+A document of RAG introduction is used. The content of the document is extracted from [aws](https://aws.amazon.com/what-is/retrieval-augmented-generation/).
+
+Index document
+
+![img](./assets/Index_resize.png)
+
+Q/A:
+
+![img](./assets/QA - What is RAG.png)
 
 ## Quick Start
 
