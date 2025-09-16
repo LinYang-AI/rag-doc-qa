@@ -1,0 +1,50 @@
+[
+  {
+    "chunk_id": "31599103366baf37c04899ff7d1775e3",
+    "doc_id": "2233b7db8fdf8e8ddf44ecc4d5ac7f19",
+    "text": "What is RAG (Retrieval -\nAugmented Generation)?",
+    "metadata": {
+      "source_type": "pdf",
+      "file_name": "What is RAG.pdf",
+      "page": 1,
+      "total_pages": 5,
+      "chunk_index": 0,
+      "source": "C:\\Users\\rulin\\AppData\\Local\\Temp\\gradio\\1f41dae56a7ce9bfdfe067bcd26d909a774e5f6018a02d2ca128e62bedd965f2\\What is RAG.pdf",
+      "char_range": "0-47"
+    },
+    "start_char": 0,
+    "end_char": 47
+  },
+  {
+    "chunk_id": "88e9c2114c6072ab966230efa84bed83",
+    "doc_id": "2233b7db8fdf8e8ddf44ecc4d5ac7f19",
+    "text": "What is RAG (Retrieval -\nAugmented Generation)?\n\nWhat is Retrieval -Augmented Generation?  \nRetrieval -Augmented Generation (RAG) is the process of optimizing the output of a large \nlanguage model, so it references an authoritative knowledge base outside of its training \ndata sources before generating a response. Large Language Models (LLMs) are tra ined \non vast volumes of data and use billions of parameters to generate original output for \ntasks like answering questions, translating languages, and completing sentences. RAG \nextends the already powerful capabilities of LLMs to specific domains or an \norganization's internal knowledge base, all without the need to retrain the model. It is a \ncost-effective approach to improving LLM output so it remains relevant, accurate, and \nuseful in various contexts.",
+    "metadata": {
+      "source_type": "pdf",
+      "file_name": "What is RAG.pdf",
+      "page": 1,
+      "total_pages": 5,
+      "chunk_index": 0,
+      "source": "C:\\Users\\rulin\\AppData\\Local\\Temp\\gradio\\1f41dae56a7ce9bfdfe067bcd26d909a774e5f6018a02d2ca128e62bedd965f2\\What is RAG.pdf",
+      "char_range": "0-815"
+    },
+    "start_char": 0,
+    "end_char": 815
+  },
+  {
+    "chunk_id": "c8422faea6189aeafb9eb9d5d76a0751",
+    "doc_id": "bd228f51481293bc2062b40eb04d10ae",
+    "text": "RAG is one approach to solving some of these challenges. It redirects the LLM to retrieve \nrelevant information from authoritative, pre -determined knowledge sources. \nOrganizations have greater control over the generated text output, and users gain \ninsights into how the LLM generates the response.",
+    "metadata": {
+      "source_type": "pdf",
+      "file_name": "What is RAG.pdf",
+      "page": 2,
+      "total_pages": 5,
+      "chunk_index": 0,
+      "source": "C:\\Users\\rulin\\AppData\\Local\\Temp\\gradio\\1f41dae56a7ce9bfdfe067bcd26d909a774e5f6018a02d2ca128e62bedd965f2\\What is RAG.pdf",
+      "char_range": "0-300"
+    },
+    "start_char": 0,
+    "end_char": 300
+  }
+]
