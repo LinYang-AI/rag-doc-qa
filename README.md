@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # RAG Document QA System
 
 A production-ready Retrieval-Augmented Generation system for intelligent document question answering.
@@ -140,12 +138,14 @@ Metrics:
 ### Switching to GPU
 
 Install CUDA version of PyTorch:
+
 ```bash
 pip install torch==2.8.0+cu128 --index-url https://download.pytorch.org/whl/cu128
 pip install faiss-gpu==1.7.2
 ```
 
 Update your configuration:
+
 ```python
 # In config.py
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -248,7 +248,8 @@ Built with:
 * [ ] Support for tables and images in PDFs
 * [ ] Streaming responses for better UX
 * [ ] A/B testing framework for retrieval strategies
-=======
+  ==============================================
+
 # rag-doc-qa
+
 Retrieval-Augmented Generation (RAG) Document QA System
->>>>>>> 31c93c07f42417470932a434dc0a17c09f946478
