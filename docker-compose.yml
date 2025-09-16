@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  rag-qa:
+    build: .
+    image: rag-doc-qa:latest
+    container_name: rag-doc-qa
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./data:/app/data
+      - ./examples:/app/examples
+      - ./documents:/app/documents  # For custom documents
+    environment:
+      - EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2
+      - LLM_BACKEND=hf
+      - CHUNK_SIZE=800
+      - CHUNK_OVERLAP=200
+      - TOP_K_RETRIEVAL=5
+      - MAX_CONTEXT_LENGTH=3000
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - GRADIO_SERVER_PORT=7860
+      # Optional: OpenAI configuration
+      # - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # - USE_OPENAI_EMBEDDING=false
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7860/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - rag-network
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+
+  # Optional: Redis for caching (uncomment if needed)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: rag-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - rag-network
+  #   restart: unless-stopped
+
+  # Optional: PostgreSQL for metadata (uncomment if needed)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: rag-postgres
+  #   environment:
+  #     - POSTGRES_DB=ragdb
+  #     - POSTGRES_USER=raguser
+  #     - POSTGRES_PASSWORD=ragpass
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - rag-network
+  #   restart: unless-stopped
+
+networks:
+  rag-network:
+    driver: bridge
+
+# volumes:
+#   redis_data:
+#   postgres_data:
