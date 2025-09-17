@@ -43,7 +43,7 @@ class ChunkingConfig:
     chunk_size: int = int(os.getenv("CHUNK_SIZE", "800"))
     chunk_overlap: int = int(os.getenv("CHUNK_OVERLAP", "200"))
     min_chunk_size: int = 100
-    metadata_fields: list = None
+    metadata_fields: list | None = None
 
     def __post_init__(self):
         if self.metadata_fields is None:
@@ -79,7 +79,7 @@ class GeneratorConfig:
     """Configuration for LLM generation."""
 
     backend: str = os.getenv("LLM_BACKEND", "hf")  # Options: hf, openai
-    model_name: str = "google/flan-t5-base"  # Default for HF
+    model_name: str = "google/flan-t5-large"  # Default for HF
     openai_model: str = "gpt-3.5-turbo"
     openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
     max_context_length: int = int(os.getenv("MAX_CONTEXT_LENGTH", "3000"))
@@ -93,11 +93,11 @@ class GeneratorConfig:
 class SystemConfig:
     """Overall system configuration."""
 
-    embedding: EmbeddingConfig = None
-    chunking: ChunkingConfig = None
-    index: IndexConfig = None
-    retriever: RetrieverConfig = None
-    generator: GeneratorConfig = None
+    embedding: EmbeddingConfig | None = None
+    chunking: ChunkingConfig | None = None
+    index: IndexConfig | None = None
+    retriever: RetrieverConfig | None = None
+    generator: GeneratorConfig | None = None
 
     # Logging
     log_level: str = os.getenv("LOG_LEVEL", "INFO")
