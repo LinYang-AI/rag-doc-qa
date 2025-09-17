@@ -11,10 +11,8 @@ setup(
     description="Production-ready Retrieval-Augmented Generation system for document QA",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Your Name",
-    author_email="your.email@example.com",
-    maintainer="Your Name",
-    maintainer_email="your.email@example.com",
+    author="Lin Yang",
+    maintainer="Lin Yang",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
