@@ -23,7 +23,7 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
-        "Topic :: Text Processing :: Linguistic"
+        "Topic :: Text Processing :: Linguistic",
     ],
     python_requires=">=3.10",
     package_dir={"": "src"},
@@ -40,9 +40,9 @@ setup(
         ],
     },
     project_urls={
-        "Homepage": "https://github.com/yourusername/rag-doc-qa",
-        "Documentation": "https://github.com/yourusername/rag-doc-qa#readme",
-        "Repository": "https://github.com/yourusername/rag-doc-qa",
-        "Issues": "https://github.com/yourusername/rag-doc-qa/issues",
+        "Homepage": "https://github.com/LinYang-AI/rag-doc-qa.git",
+        "Documentation": "https://github.com/LinYang-AI/rag-doc-qa.git#readme",
+        "Repository": "https://github.com/LinYang-AI/rag-doc-qa.git",
+        "Issues": "https://github.com/LinYang-AI/rag-doc-qa.git/issues",
     },
 )
