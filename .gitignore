@@ -211,4 +211,4 @@ docs/
 *.pdf
 *.pyc
 
-.pkl
+*.pkl
