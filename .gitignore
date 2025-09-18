@@ -208,3 +208,7 @@ __marimo__/
 
 .ipynb
 docs/
+*.pdf
+*.pyc
+
+.pkl
