@@ -1,8 +1,119 @@
-.venv/
-__pycache__/
-.ipynb_checkpoints
-*.pyc
-.DS_Store
-
 # Environment variables file
 .env
+
+# Git
+
+.git
+.gitignore
+.github
+
+# Python
+
+**pycache**
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Virtual environments
+
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDEs
+
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Project specific
+
+data/
+logs/
+*.log
+*.index
+*.faiss
+*.pkl
+*.npy
+*.json
+!requirements*.txt
+!pyproject.toml
+!setup.py
+!examples/eval_dataset.json
+
+# Documentation
+
+docs/
+*.md
+!README.md
+!THIRD_PARTY_NOTICES.md
+
+# Tests
+
+tests/
+pytest.ini
+.coveragerc
+
+# CI/CD
+
+.github/
+.travis.yml
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Temporary files
+
+tmp/
+temp/
+*.tmp
+*.bak
+.cache/
+
+# Models (don’t include pre-downloaded models)
+
+models/
+*.bin
+*.safetensors
+*.ckpt
+*.pth
+*.pt
+*.h5
+*.onnx
+
+# Development
+
+.env
+.env.*
+!.env.example
+*.ipynb
+notebooks/
+scripts/test_*.sh
