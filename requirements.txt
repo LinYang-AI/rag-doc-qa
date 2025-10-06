@@ -1,49 +1,21 @@
-# Core dependencies - Updated for compatibility (Dec 2024)
-torch>=2.0.0,<3.0.0  # PyTorch - use latest 2.x
-transformers>=4.36.0,<5.0.0  # Hugging Face Transformers
-sentence-transformers>=2.2.2,<3.0.0  # Sentence embeddings
-
-# FAISS for vector search (You can switch to gpu version if your OS )
-faiss-cpu==1.7.4
-# faiss-gpu-cu12==1.12.0
-
-# Document processing
-pypdf>=3.17.0  # Modern PDF library (PyPDF2 is deprecated)
-beautifulsoup4>=4.12.0,<5.0.0  # HTML parsing
-chardet>=5.2.0,<6.0.0  # Character encoding detection
-requests>=2.31.0,<3.0.0  # HTTP library
-python-multipart>=0.0.6  # For file uploads in Gradio
-
-# Search and retrieval
-rank-bm25==0.2.2  # BM25 ranking
-numpy>=1.24.0,<2.0.0  # Numerical computing
-
-# Web interface
-gradio==3.50.2  # Web UI framework
-pydantic<2.0.0 # Compatible with gradio
-fastapi>=0.104.0  # Required by newer Gradio
-uvicorn>=0.24.0  # ASGI server for Gradio
-
-# Configuration
-python-dotenv>=1.0.0,<2.0.0  # Environment variables
-
-# Evaluation
-scikit-learn>=1.3.0,<2.0.0  # ML utilities
-
-# Optional: OpenAI support
-openai>=1.6.0,<2.0.0  # OpenAI API client
-
-# Additional utilities
-tqdm>=4.66.0  # Progress bars
-pandas>=2.1.0,<3.0.0  # Data manipulation (useful for eval)
-matplotlib>=3.7.0,<4.0.0  # Plotting (for evaluation reports)
-
-# Development dependencies (install with pip install -e ".[dev]")
-# pytest>=7.4.3
-# pytest-cov>=4.1.0
-# pytest-asyncio>=0.21.0
-# black>=23.11.0
-# flake8>=6.1.0
-# isort>=5.12.0
-# mypy>=1.7.0
-# types-requests>=2.31.0
+torch>=2.0.0,<3.0.0
+transformers>=4.36.0,<5.0.0
+sentence-transformers>=2.2.2,<3.0.0
+faiss-cpu==1.7.4  # or faiss-gpu==1.7.4
+pypdf>=3.17.0
+beautifulsoup4>=4.12.0,<5.0.0
+chardet>=5.2.0,<6.0.0
+requests>=2.31.0,<3.0.0
+python-multipart>=0.0.6
+rank-bm25==0.2.2
+numpy>=1.24.0,<2.0.0
+gradio>=4.19.0,<5.0.0
+fastapi>=0.104.0
+uvicorn>=0.24.0
+python-dotenv>=1.0.0,<2.0.0
+scikit-learn>=1.3.0,<2.0.0
+openai>=1.6.0,<2.0.0  # optional
+tqdm>=4.66.0
+pandas>=2.1.0,<3.0.0
+matplotlib>=3.7.0,<4.0.0
+pydantic==2.10.0
