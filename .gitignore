@@ -212,3 +212,5 @@ docs/
 *.pyc
 
 *.pkl
+*.npy
+*.pyc
