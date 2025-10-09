@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "description": "Sample evaluation dataset for RAG Document QA system",
+  "queries": [
+    {
+      "query": "What is machine learning?",
+      "relevant_docs": ["machine_learning.txt"],
+      "answer": "Machine learning is a subset of artificial intelligence that provides systems the ability to automatically learn and improve from experience without being explicitly programmed. It focuses on developing computer programs that can access data and use it to learn for themselves.",
+      "expected_sources": ["machine_learning.txt"]
+    },
+    {
+      "query": "How does deep learning differ from machine learning?",
+      "relevant_docs": ["deep_learning.txt", "machine_learning.txt"],
+      "answer": "Deep learning is a subset of machine learning that uses neural networks with multiple layers. While machine learning encompasses various techniques for learning from data, deep learning specifically uses deep neural networks with multiple layers to learn hierarchical representations of data.",
+      "expected_sources": ["deep_learning.txt"]
+    },
+    {
+      "query": "What are the benefits of RAG?",
+      "relevant_docs": ["retrieval_augmented_generation.md"],
+      "answer": "RAG provides several benefits: reduced hallucination by grounding responses in retrieved facts, access to up-to-date information beyond the training cutoff, domain specificity without retraining models, and transparency through source citations.",
+      "expected_sources": ["retrieval_augmented_generation.md"]
+    },
+    {
+      "query": "What fields has deep learning been applied to?",
+      "relevant_docs": ["deep_learning.txt"],
+      "answer": "Deep learning has been applied to computer vision, machine vision, speech recognition, natural language processing, audio recognition, social network filtering, machine translation, bioinformatics, drug design, medical image analysis, material inspection, and board game programs.",
+      "expected_sources": ["deep_learning.txt"]
+    },
+    {
+      "query": "What are supervised and unsupervised machine learning?",
+      "relevant_docs": ["machine_learning.txt"],
+      "answer": "Supervised machine learning algorithms use labeled examples to predict future events by applying what has been learned to new data. Unsupervised machine learning algorithms are used when the training information is neither classified nor labeled.",
+      "expected_sources": ["machine_learning.txt"]
+    }
+  ]
+}
