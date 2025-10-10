@@ -502,7 +502,7 @@ def create_app():
                             label="Embedding Model",
                         )
                         llm_backend = gr.Radio(
-                            choices=["hf", "openai"], value="hf", label="LLM Backend"
+                            choices=["hf", "openai"], value="openai", label="LLM Backend"
                         )
 
                 with gr.Column(scale=2):
@@ -805,34 +805,34 @@ def run_evaluation(eval_file):
                 return "🔴"
 
         metrics = f"""
-📊 **Evaluation Metrics Summary**
+        📊 **Evaluation Metrics Summary**
 
-**Dataset Info:**
-- Total Queries: {results.num_queries}
-- Evaluation Time: {elapsed:.2f}s
-- Avg Time per Query: {elapsed/results.num_queries:.2f}s
+        **Dataset Info:**
+        - Total Queries: {results.num_queries}
+        - Evaluation Time: {elapsed:.2f}s
+        - Avg Time per Query: {elapsed/results.num_queries:.2f}s
 
-**Retrieval Performance (Recall@k):**
-- Recall@1: {results.recall_at_k.get(1, 0):.3f} {get_performance_emoji(results.recall_at_k.get(1, 0))}
-- Recall@3: {results.recall_at_k.get(3, 0):.3f} {get_performance_emoji(results.recall_at_k.get(3, 0))}
-- Recall@5: {results.recall_at_k.get(5, 0):.3f} {get_performance_emoji(results.recall_at_k.get(5, 0))}
-- Recall@10: {results.recall_at_k.get(10, 0):.3f} {get_performance_emoji(results.recall_at_k.get(10, 0))}
+        **Retrieval Performance (Recall@k):**
+        - Recall@1: {results.recall_at_k.get(1, 0):.3f} {get_performance_emoji(results.recall_at_k.get(1, 0))}
+        - Recall@3: {results.recall_at_k.get(3, 0):.3f} {get_performance_emoji(results.recall_at_k.get(3, 0))}
+        - Recall@5: {results.recall_at_k.get(5, 0):.3f} {get_performance_emoji(results.recall_at_k.get(5, 0))}
+        - Recall@10: {results.recall_at_k.get(10, 0):.3f} {get_performance_emoji(results.recall_at_k.get(10, 0))}
 
-**Answer Quality:**
-- Avg Similarity: {results.answer_similarity:.3f} {get_performance_emoji(results.answer_similarity)}
+        **Answer Quality:**
+        - Avg Similarity: {results.answer_similarity:.3f} {get_performance_emoji(results.answer_similarity)}
 
-**Performance:**
-- Avg Latency: {results.latency_ms:.2f}ms
-- Total Queries: {results.num_queries}
+        **Performance:**
+        - Avg Latency: {results.latency_ms:.2f}ms
+        - Total Queries: {results.num_queries}
 
-**Quality Distribution:**
-- Excellent (>0.8): {len([r for r in results.detailed_results if r.get('answer_similarity', 0) > 0.8])} queries
-- Good (0.6-0.8): {len([r for r in results.detailed_results if 0.6 < r.get('answer_similarity', 0) <= 0.8])} queries
-- Fair (<0.6): {len([r for r in results.detailed_results if 0 < r.get('answer_similarity', 0) <= 0.6])} queries
-- No answer: {len([r for r in results.detailed_results if r.get('answer_similarity', 0) == 0])} queries
+        **Quality Distribution:**
+        - Excellent (>0.8): {len([r for r in results.detailed_results if r.get('answer_similarity', 0) > 0.8])} queries
+        - Good (0.6-0.8): {len([r for r in results.detailed_results if 0.6 < r.get('answer_similarity', 0) <= 0.8])} queries
+        - Fair (<0.6): {len([r for r in results.detailed_results if 0 < r.get('answer_similarity', 0) <= 0.6])} queries
+        - No answer: {len([r for r in results.detailed_results if r.get('answer_similarity', 0) == 0])} queries
 
-**Recommendations:**
-"""
+        **Recommendations:**
+        """
 
         # Add recommendations based on results
         if results.answer_similarity < 0.6:
