@@ -160,7 +160,8 @@ class RAGPipeline:
             # Get chat history if requested
             chat_history = None
             if use_chat_history and session_id and session_id in self.sessions:
-                chat_history = self._format_chat_history(self.sessions[session_id])
+                chat_history = self._format_chat_history(
+                    self.sessions[session_id])
 
             # Generate answer
             generation_result = self.generator.generate(
@@ -283,7 +284,7 @@ async def api_query(question: str, top_k: int = 5, session_id: Optional[str] = N
         raise HTTPException(status_code=500, detail="Pipeline not initialized")
 
     answer, sources, metadata = await pipeline.query_async(
-        question, top_k, session_id=session_id
+        question, top_k=top_k, session_id=session_id
     )
 
     return JSONResponse(
@@ -433,9 +434,9 @@ def create_chunk_visualization(stats):
 • Max Size: {stats.get('max_chunk_size', 0)} chars
 
 📈 Size Distribution:
-• Below Min: {below_min} ({(below_min/max(total,1)*100):.1f}%)
-• Normal: {normal} ({(normal/max(total,1)*100):.1f}%)
-• Above Max: {above_max} ({(above_max/max(total,1)*100):.1f}%)"""
+• Below Min: {below_min} ({(below_min/max(total, 1)*100):.1f}%)
+• Normal: {normal} ({(normal/max(total, 1)*100):.1f}%)
+• Above Max: {above_max} ({(above_max/max(total, 1)*100):.1f}%)"""
 
     return summary
 
@@ -451,9 +452,9 @@ def create_performance_chart(metadata):
     summary = f"""⏱️ Performance Breakdown:
     
 • Total Time: {total_time:.3f}s
-• Retrieval: {retrieval_time:.3f}s ({(retrieval_time/max(total_time,0.001)*100):.1f}%)
-• Generation: {generation_time:.3f}s ({(generation_time/max(total_time,0.001)*100):.1f}%)
-• Other: {other_time:.3f}s ({(other_time/max(total_time,0.001)*100):.1f}%)
+• Retrieval: {retrieval_time:.3f}s ({(retrieval_time/max(total_time, 0.001)*100):.1f}%)
+• Generation: {generation_time:.3f}s ({(generation_time/max(total_time, 0.001)*100):.1f}%)
+• Other: {other_time:.3f}s ({(other_time/max(total_time, 0.001)*100):.1f}%)
 
 🎯 Retrieved Docs: {metadata.get('num_retrieved', 0)}
 📄 Context Length: {metadata.get('context_length', 0)} chars"""
@@ -501,20 +502,22 @@ def create_app():
                             label="Embedding Model",
                         )
                         llm_backend = gr.Radio(
-                            choices=["hf", "openai"], value="hf", label="LLM Backend"
+                            choices=["hf", "openai"], value="openai", label="LLM Backend"
                         )
 
                 with gr.Column(scale=2):
                     gr.Markdown("### Document Upload")
                     file_upload = gr.File(
                         label="Upload Documents",
-                        file_types=[".pdf", ".txt", ".html", ".md", ".docx", ".csv"],
+                        file_types=[".pdf", ".txt", ".html",
+                                    ".md", ".docx", ".csv"],
                         file_count="multiple",
                         type="filepath",
                     )
 
                     chunking_strategy = gr.Dropdown(
-                        choices=["recursive", "fixed", "sentence", "paragraph"],
+                        choices=["recursive", "fixed",
+                                 "sentence", "paragraph"],
                         value="recursive",
                         label="Chunking Strategy",
                     )
@@ -539,7 +542,8 @@ def create_app():
                     )
 
                     with gr.Row():
-                        query_btn = gr.Button("🔍 Search & Generate", variant="primary")
+                        query_btn = gr.Button(
+                            "🔍 Search & Generate", variant="primary")
                         clear_btn = gr.Button("🗑️ Clear")
 
                     with gr.Accordion("⚙️ Advanced Options", open=False):
@@ -612,7 +616,20 @@ def create_app():
             gr.Markdown(
                 """
             ### Evaluation Suite
-            Test your RAG system with predefined or custom evaluation datasets.
+            Test RAG system with predefined or custom evaluation datasets.
+            
+            **Format**: Upload a JSON file with the following structure:
+            ```json
+                {
+                    "queries": [
+                        {
+                        "query": "Your question here",
+                        "relevant_docs": ["doc1.txt"],
+                        "answer": "Expected answer"
+                        }
+                    ]
+                }
+            ```
             """
             )
 
@@ -627,6 +644,12 @@ def create_app():
             eval_charts = gr.Textbox(
                 label="Evaluation Metrics", lines=8, interactive=False
             )
+        
+        run_eval_btn.click(
+            run_evaluation,
+            inputs=[eval_dataset],
+            outputs=[eval_output, eval_charts],
+        )
 
         with gr.Tab("ℹ️ Help"):
             gr.Markdown(
@@ -673,12 +696,14 @@ def create_app():
                 use_history,
                 session_id,
             ],
-            outputs=[answer_output, sources_output, metadata_output, performance_chart],
+            outputs=[answer_output, sources_output,
+                     metadata_output, performance_chart],
         )
 
         clear_btn.click(
             lambda: ("", "", "", ""),
-            outputs=[answer_output, sources_output, metadata_output, performance_chart],
+            outputs=[answer_output, sources_output,
+                     metadata_output, performance_chart],
         )
 
         refresh_btn.click(
@@ -691,6 +716,153 @@ def create_app():
         )
 
     return demo
+
+
+def run_evaluation(eval_file):
+    """Run evaluation on uploaded dataset."""
+    if not pipeline:
+        return "⚠️ Please initialize the pipeline first!", ""
+
+    if not eval_file:
+        return "⚠️ Please upload an evaluation dataset (JSON file)", ""
+
+    try:
+        # Handle Gradio file input - it can be a string path or file object
+        if isinstance(eval_file, str):
+            file_path = eval_file
+        elif isinstance(eval_file, list) and len(eval_file) > 0:
+            # Sometimes Gradio returns a list
+            file_path = eval_file[0] if isinstance(
+                eval_file[0], str) else eval_file[0].name
+        elif hasattr(eval_file, 'name'):
+            file_path = eval_file.name
+        else:
+            # Last resort - try to convert to string
+            file_path = str(eval_file)
+
+        logger.info(f"Loading evaluation dataset from: {file_path}")
+
+        # Check if file exists
+        if not Path(file_path).exists():
+            return f"❌ File not found: {file_path}", ""
+
+        # Read the JSON file
+        with open(file_path, 'r', encoding='utf-8') as f:
+            dataset_dict = json.load(f)
+
+        # Parse dataset - handle both formats
+        if isinstance(dataset_dict, dict) and 'queries' in dataset_dict:
+            # New format with queries key
+            eval_dataset = dataset_dict['queries']
+            logger.info(f"Loaded dataset with 'queries' key")
+        elif isinstance(dataset_dict, list):
+            # Old format - direct list
+            eval_dataset = dataset_dict
+            logger.info(f"Loaded dataset as direct list")
+        else:
+            return "❌ Invalid dataset format. Expected 'queries' key or list of queries.", ""
+
+        if not eval_dataset:
+            return "❌ No queries found in dataset", ""
+
+        # Validate dataset structure
+        for i, item in enumerate(eval_dataset):
+            if not isinstance(item, dict):
+                return f"❌ Invalid query format at index {i}. Expected dict, got {type(item)}", ""
+            if 'query' not in item:
+                return f"❌ Missing 'query' field in item {i}", ""
+
+        logger.info(
+            f"✓ Dataset validated. Running evaluation on {len(eval_dataset)} queries...")
+
+        # Check if index has data
+        if not pipeline.index or not pipeline.index.metadata:
+            return "❌ No documents indexed. Please upload and index documents first.", ""
+
+        logger.info(f"Index has {len(pipeline.index.metadata)} chunks indexed")
+
+        # Run evaluation with progress
+        start_time = datetime.now()
+        results = pipeline.evaluator.evaluate(
+            pipeline,
+            eval_dataset,
+            k_values=[1, 3, 5, 10]
+        )
+        elapsed = (datetime.now() - start_time).total_seconds()
+
+        logger.info(f"✓ Evaluation complete in {elapsed:.2f}s")
+
+        # Generate detailed report
+        report = pipeline.evaluator.generate_report(results)
+
+        # Create metrics summary with emoji indicators
+        def get_performance_emoji(score):
+            if score >= 0.8:
+                return "🟢"
+            elif score >= 0.6:
+                return "🟡"
+            else:
+                return "🔴"
+
+        metrics = f"""
+        📊 **Evaluation Metrics Summary**
+
+        **Dataset Info:**
+        - Total Queries: {results.num_queries}
+        - Evaluation Time: {elapsed:.2f}s
+        - Avg Time per Query: {elapsed/results.num_queries:.2f}s
+
+        **Retrieval Performance (Recall@k):**
+        - Recall@1: {results.recall_at_k.get(1, 0):.3f} {get_performance_emoji(results.recall_at_k.get(1, 0))}
+        - Recall@3: {results.recall_at_k.get(3, 0):.3f} {get_performance_emoji(results.recall_at_k.get(3, 0))}
+        - Recall@5: {results.recall_at_k.get(5, 0):.3f} {get_performance_emoji(results.recall_at_k.get(5, 0))}
+        - Recall@10: {results.recall_at_k.get(10, 0):.3f} {get_performance_emoji(results.recall_at_k.get(10, 0))}
+
+        **Answer Quality:**
+        - Avg Similarity: {results.answer_similarity:.3f} {get_performance_emoji(results.answer_similarity)}
+
+        **Performance:**
+        - Avg Latency: {results.latency_ms:.2f}ms
+        - Total Queries: {results.num_queries}
+
+        **Quality Distribution:**
+        - Excellent (>0.8): {len([r for r in results.detailed_results if r.get('answer_similarity', 0) > 0.8])} queries
+        - Good (0.6-0.8): {len([r for r in results.detailed_results if 0.6 < r.get('answer_similarity', 0) <= 0.8])} queries
+        - Fair (<0.6): {len([r for r in results.detailed_results if 0 < r.get('answer_similarity', 0) <= 0.6])} queries
+        - No answer: {len([r for r in results.detailed_results if r.get('answer_similarity', 0) == 0])} queries
+
+        **Recommendations:**
+        """
+
+        # Add recommendations based on results
+        if results.answer_similarity < 0.6:
+            metrics += "\n⚠️ Consider adjusting chunk size or improving document quality"
+        if results.recall_at_k.get(5, 0) < 0.7:
+            metrics += "\n⚠️ Low retrieval recall - consider adjusting retrieval parameters"
+        if results.latency_ms > 2000:
+            metrics += "\n⚠️ High latency - consider optimizing models or using GPU"
+        if results.answer_similarity >= 0.8 and results.recall_at_k.get(5, 0) >= 0.8:
+            metrics += "\n✅ Excellent performance! System is working well."
+
+        logger.info("✓ Evaluation report generated")
+        return report, metrics
+
+    except json.JSONDecodeError as e:
+        error_msg = f"❌ Error parsing JSON file: {str(e)}\n\nPlease ensure your file is valid JSON."
+        logger.error(error_msg)
+        return error_msg, ""
+    except FileNotFoundError as e:
+        error_msg = f"❌ File not found: {str(e)}"
+        logger.error(error_msg)
+        return error_msg, ""
+    except KeyError as e:
+        error_msg = f"❌ Missing required field in dataset: {str(e)}"
+        logger.error(error_msg)
+        return error_msg, ""
+    except Exception as e:
+        error_msg = f"❌ Error running evaluation: {str(e)}\n\nCheck console logs for details."
+        logger.error(f"Evaluation error: {e}", exc_info=True)
+        return error_msg, ""
 
 
 def main():
